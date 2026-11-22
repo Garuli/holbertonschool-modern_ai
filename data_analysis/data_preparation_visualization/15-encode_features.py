@@ -10,12 +10,10 @@ def encode_features(df):
     churn_le = preprocessing.LabelEncoder()
     df['Churn'] = churn_le.fit_transform(df['Churn'])
 
-    binary_cols = ['Partner', 'Dependents', 'PaperlessBilling',
-                   'SeniorCitizen']
-    binary_oe = preprocessing.OrdinalEncoder(
-        categories=[['No', 'Yes']] * len(binary_cols))
-    df[binary_cols] = binary_oe.fit_transform(
-        df[binary_cols]).astype(int)
+    binary_oe = preprocessing.OrdinalEncoder(categories=[['No', 'Yes']])
+    for col in ['Partner', 'Dependents', 'PaperlessBilling',
+                'SeniorCitizen']:
+        df[col] = binary_oe.fit_transform(df[[col]]).astype(int).ravel()
 
     tenure_oe = preprocessing.OrdinalEncoder()
     df['TenureGroup'] = tenure_oe.fit_transform(

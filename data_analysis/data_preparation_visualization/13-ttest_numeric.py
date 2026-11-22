@@ -9,6 +9,5 @@ def ttest_numeric(df):
     for col in df.select_dtypes(include='number').columns:
         yes = df[df['Churn'] == 'Yes'][col]
         no = df[df['Churn'] == 'No'][col]
-        results[col] = float(
-            stats.ttest_ind(yes, no, equal_var=False).pvalue)
+        results[col] = stats.ttest_ind(yes, no, equal_var=False).pvalue
     return results
